@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 
 /**
@@ -10,7 +11,13 @@ export class UserHome extends React.Component {
   render () {
   const {user} = this.props
   return (
-    <div>Welcome {user}</div>
+    <div>
+      <div>Welcome {user}</div>
+      <Link to="/pick"><button type="button"> Find me a Flick! </button></Link>
+
+
+    </div>
+
   )
  }
 }

@@ -1,20 +1,22 @@
 import React from 'react'
-import {fetchGenres, setGenre} from "../../../store"
+import {fetchGenres, setGenres} from "../../../store"
 import { connect } from 'react-redux'
 import history from '../../../history'
+import {Link} from 'react-router-dom'
 
 class PickGenre extends React.Component {
 constructor() {
   super();
+  this.state = {
+    genres: []
+  }
   this.pickGenre=this.pickGenre.bind(this);
 }
 componentDidMount() {
   this.props.getGenres();
 }
 pickGenre(movieId) {
-  this.props.setGenre(movieId);
-  history.push('/pick/keys')
-  console.log("props", this.props)
+  this.state.genres.push(movieId)
 }
 render () {
   return (
@@ -26,7 +28,9 @@ render () {
           <div key={genre.id}><button type="button" onClick={() => this.pickGenre(movieId)}> {genre.name} </button></div>
         )
       })}
+      <Link to="/pick/keys"><button type="button" onClick={() => this.props.setGenres(this.state.genres)}> Submit </button></Link>
     </div>
+
   )
 }
 }
@@ -35,7 +39,7 @@ const mapState = state => ({
 })
 const mapDispatch = dispatch => ({
   getGenres : () => dispatch(fetchGenres()),
-  setGenre : (id) => dispatch(setGenre(id))
+  setGenres : (id) => dispatch(setGenres(id))
 })
 
 export default connect(mapState, mapDispatch)(PickGenre);

@@ -2,6 +2,15 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Recommended = db.define('recommended', {
+  poster_path : {
+    type: Sequelize.STRING
+  },
+  overview : {
+    type: Sequelize.TEXT
+  },
+  genre_ids:  {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
   title : {
     type: Sequelize.STRING,
     allowNull: false },

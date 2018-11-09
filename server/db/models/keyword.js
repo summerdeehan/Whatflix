@@ -4,7 +4,9 @@ const db = require('../db')
 const Keyword = db.define('keyword', {
   name : {
     type: Sequelize.STRING,
-    allowNull: false},
+    allowNull: false,
+    unique: true},
+
   movieDBId: {
     type: Sequelize.INTEGER,
     allowNull: false

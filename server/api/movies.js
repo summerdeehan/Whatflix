@@ -11,14 +11,13 @@ router.get('/favorites', async (req,res,next) => {
     next(err);
   }
 })
+// title: req.body.title,
+//       movieId: req.body.movieId,
+//       genre: req.body.genre_ids,
+//       userId: req.body.userId
 router.post('/favorites/', async (req,res,next) => {
   try {
-    const fave = await Favorite.create({
-      title: req.body.title,
-      movieId: req.body.movieId,
-      genre: req.body.genre_ids,
-      userId: req.body.userId
-    });
+    const fave = await Favorite.create(req.body);
     res.status(201).json(fave)
   } catch (err) {
     next(err);
@@ -38,13 +37,22 @@ router.post('/viewHistory/', async (req,res,next) => {
   }
 })
 //recommended
+router.get('/recommendations', async (req,res,next) => {
+  try {
+    const recs = await Recommended.findAll();
+    res.status(200).json(recs)
+  } catch (err) {
+    next(err);
+  }
+})
 router.post('/recommended/', async (req,res,next) => {
   try {
-    const rec = await Recommended.create({
-      title: req.body.title,
-      movieId: req.body.movieId,
-      userId: req.body.userId
-    });
+    const [rec, created] = await Recommended.findOrCreate({ where : req.body});
+    if (!created) {
+      console.log("adding one")
+      rec.addCount();
+    }
+
     res.status(201).json(rec)
   } catch (err) {
     next(err);

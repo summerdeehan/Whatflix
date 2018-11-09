@@ -21,18 +21,18 @@ class SearchMovies extends React.Component {
     const formattedVal = this.state.searchVal.split(" ").join("%20");
     this.props.searchMovies(formattedVal);
   }
-  handleSelect (use, movieId, genre_ids, title, userId) {
+  handleSelect (use, movie, userId) {
+    const movieId = movie.id;
+    const {genre_ids, title, poster_path, overview} = movie
     //use- where is the search happening??
     switch (use) {
       case "favorite":
-      //console.log("faves", id, genre_ids ,title, userId);
-        addToFavorites({movieId, genre_ids ,title, userId})
-        addToWatched({movieId, title, userId})
+        this.props.addToFavorites(movieId, {genre_ids, title, poster_path, overview}, userId)
         break;
-      case "watched":
-      //console.log("watched", id, title, userId);
-        addToWatched({movieId, title, userId})
-        break;
+      // case "watched":
+      // //console.log("watched", id, title, userId);
+      //   this.props.addToWatched({movieId, title}, userId)
+        // break;
       default:
        break;
     }
@@ -50,7 +50,7 @@ class SearchMovies extends React.Component {
         { results.length
         ? <div>
             <h1> Search Results: </h1>
-            {results.map(movie => <p key={movie.id} onClick={()=> this.handleSelect(use, movie.id, movie.genre_ids, movie.title, this.props.userId)}> {movie.title} </p>)}
+            {results.map(movie => <p key={movie.id} onClick={()=> this.handleSelect(use, movie,  this.props.userId)}> {movie.title} </p>)}
             <Link to="/flick"> <button type="button"> Next </button> </Link>
           </div>
         : this.state.searchVal && !results.length ? <h3>No Results Found</h3> : null }
@@ -65,6 +65,8 @@ const mapState = state => ({
   // favoriteCount : state.moviePicks.countFaves
 })
 const mapDispatch = dispatch => ({
-  searchMovies: (movie) => dispatch(searchMovie(movie))
+  searchMovies: (movie) => dispatch(searchMovie(movie)),
+  addToFavorites: (movie, userId) => dispatch(addToFavorites(movie, userId)),
+  addToWatched: (movie, userId) => dispatch(addToWatched(movie, userId)),
 })
 export default connect(mapState, mapDispatch)(SearchMovies)

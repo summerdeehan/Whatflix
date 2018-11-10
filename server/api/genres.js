@@ -11,3 +11,12 @@ router.get('/', async (req, res, next) => {
     console.error(err)
   }
 })
+router.post('/', async (req, res, next) => {
+  try {
+    const [genres, created] = await Genre.findOrCreate(req.body)
+    res.status(200).json(genres);
+  }
+  catch(err) {
+    console.error(err)
+  }
+})

@@ -6,8 +6,9 @@ import user from './user'
 import search from './search'
 import config from './config'
 import moviePicks from './movie-picks'
+import results from './results'
 
-const reducer = combineReducers({user, search, config, moviePicks})
+const reducer = combineReducers({user, results, search, config, moviePicks})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -18,3 +19,4 @@ export * from './user'
 export * from './search'
 export * from './movie-picks'
 export * from './config'
+export * from './results'

@@ -7,7 +7,7 @@ const ViewHistory = db.define('viewHistory', {
     allowNull: false},
   movieId: {
     type: Sequelize.INTEGER,
-    unique: true,
+    unique: true
   }
 })
 

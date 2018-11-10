@@ -20,10 +20,15 @@ const Recommended = db.define('recommended', {
   weight: {
     type: Sequelize.INTEGER,
     defaultValue: 1
+  },
+  keywords: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
   }
 })
+
 Recommended.prototype.addCount = function () {
-  this.weight++;
+  const newWeight = this.weight + 1;
+  this.update({weight: newWeight})
 }
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {fetchGenres, setGenres} from "../../../store"
+import {fetchGenres, setGenres, filterRecommended} from "../../../store"
 import { connect } from 'react-redux'
 import history from '../../../history'
 import {Link} from 'react-router-dom'
@@ -14,21 +14,25 @@ constructor() {
 }
 componentDidMount() {
   this.props.getGenres();
+  this.props.filterRecommended();
 }
 pickGenre(movieId) {
-  this.state.genres.push(movieId)
+  !movieId ? this.setState({genres: 0}): this.state.genres.push(movieId)
 }
 render () {
   return (
     <div>
       <h1> Please Pick A Genre </h1>
-      {this.props.genres.map(genre => {
-        const movieId = genre.movieDBId
-        return (
-          <div key={genre.id}><button type="button" onClick={() => this.pickGenre(movieId)}> {genre.name} </button></div>
-        )
-      })}
       <Link to="/pick/keys"><button type="button" onClick={() => this.props.setGenres(this.state.genres)}> Submit </button></Link>
+      <div className="flex-row">
+      <div type="button" className="pick-buttons" onClick={() => this.pickGenre()}> Any </div>
+        {this.props.genres.map(genre => {
+          const movieId = genre.movieDBId
+          return (
+            <div key={genre.id} type="button" className="pick-buttons" onClick={() => this.pickGenre(movieId)}> {genre.name} </div>
+          )
+        })}
+      </div>
     </div>
 
   )
@@ -39,7 +43,8 @@ const mapState = state => ({
 })
 const mapDispatch = dispatch => ({
   getGenres : () => dispatch(fetchGenres()),
-  setGenres : (id) => dispatch(setGenres(id))
+  setGenres : (id) => dispatch(setGenres(id)),
+  filterRecommended: (rec) => dispatch(filterRecommended(rec))
 })
 
 export default connect(mapState, mapDispatch)(PickGenre);

@@ -19,7 +19,9 @@ async function seed() {
     Genre.create({"movieDBId": 80, "name": "Crime"}),
     Genre.create({"movieDBId": 14, "name": "Fantasy"}),
     Genre.create({"movieDBId": 10749, "name": "Romance"}),
-    Genre.create({"movieDBId": 9648, "name": "Mystery"})
+    Genre.create({"movieDBId": 9648, "name": "Mystery"}),
+    Genre.create({"movieDBId": 878,"name": "Science Fiction"}),
+    Genre.create({"movieDBId": 53,"name": "Thriller"})
  ])
 
   console.log(`seeded ${users.length} users`)

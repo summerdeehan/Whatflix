@@ -11,4 +11,4 @@ export {default as Loading} from './loading'
 export {default as Whatflix} from './movies/userChoices/Whatflix'
 export {default as Favorites} from './movies/Favorites'
 export {default as WatchList} from './movies/WatchList'
-
+export {default as MovieSelect} from './movies/userChoices/MovieSelect'

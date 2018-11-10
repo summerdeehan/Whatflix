@@ -43,15 +43,15 @@ class SearchMovies extends React.Component {
     return (
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
-          <input onChange={this.handleChange} type="text" name="title" placeholder="Movie Title.." />
+          <input className="form-entry" onChange={this.handleChange} type="text" name="title" placeholder="Movie Title.." />
           <button type="submit" value="Submit" disabled={!this.state.searchVal}>Search</button>
         </form>
-
+        <Link to="/flick"> <button type="button"> Next </button> </Link>
         { results.length
         ? <div>
             <h1> Search Results: </h1>
-            {results.map(movie => <p key={movie.id} onClick={()=> this.handleSelect(use, movie,  this.props.userId)}> {movie.title} </p>)}
-            <Link to="/flick"> <button type="button"> Next </button> </Link>
+            {results.map(movie => <p key={movie.id} onClick={()=> this.handleSelect(use, movie,  this.props.user.id)}> {movie.title} </p>)}
+
           </div>
         : this.state.searchVal && !results.length ? <h3>No Results Found</h3> : null }
       </div>
@@ -60,13 +60,13 @@ class SearchMovies extends React.Component {
 }
 
 const mapState = state => ({
-  userId: state.user.id,
+  user: state.user,
   searchResults: state.search.searchMovieResults
   // favoriteCount : state.moviePicks.countFaves
 })
 const mapDispatch = dispatch => ({
   searchMovies: (movie) => dispatch(searchMovie(movie)),
-  addToFavorites: (movie, userId) => dispatch(addToFavorites(movie, userId)),
+  addToFavorites: (movieId, movie, userId) => dispatch(addToFavorites(movieId, movie, userId)),
   addToWatched: (movie, userId) => dispatch(addToWatched(movie, userId)),
 })
 export default connect(mapState, mapDispatch)(SearchMovies)

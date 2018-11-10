@@ -17,7 +17,14 @@ nav a {
 }
 
 #logo img {
-  height: 50px;
+  height: 5em;
+}
+
+#logo {
+  margin: 1em;
+  padding: 5px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 form div {
@@ -25,6 +32,47 @@ form div {
   display: inline-block;
 }
 
+.form-entry {
+  background-color: rgb(240, 183, 202);
+  font-size: 20pt;
+  border: none;
+  height: 1em;
+}
+/* ---------Flex Centre -------------- */
 
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* // ---------flick page-------------- */
+
+
+#recommended-posters img {
+  height: 65vh;
+  padding: 10px;
+}
+
+#image-carousel img {
+    height: 40vh
+}
+
+/* // ------ genres and keywords ---------- */
+
+.pick-buttons {
+  text-align: center;
+  background-color: rgb(153, 37, 37);
+  height: 10vh;
+  width: 30vw;
+  margin: 10px;
+  border-radius: 25px;
+}
 
 

@@ -3,8 +3,28 @@ import {connect} from 'react-redux'
 import { fetchFavorites } from '../../store'
 import {Link} from 'react-router-dom'
 
-export default class Favorites extends React.Component {
+
+class Favorites extends React.Component {
+  componentDidMount () {
+    this.props.fetchFavorites();
+  }
   render () {
-    return null;
+    console.log(this.props)
+    return (
+      <div>
+        {this.props.favorites.map(movie=> {
+          return (
+            <p key={movie.id}> {movie.title} </p>
+          )
+        })}
+      </div>
+    )
   }
 }
+const mapState=(state) => ({
+  favorites: state.results.favorites
+})
+const mapDispatch=(dispatch) => ({
+  fetchFavorites: () => dispatch(fetchFavorites())
+})
+export default connect(mapState, mapDispatch)(Favorites)

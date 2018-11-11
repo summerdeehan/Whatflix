@@ -27,14 +27,13 @@ export const getRecommendedAndAdd  = async (movieId, userId) => {
     //find recommended and post all to db
     const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=09c9f42cffc2ed60c067c488dd5ed974&language=en-US&page=1`)
     //add keywords
-    data.results.map( async (result) => {
+    data.results.slice(0,10).map( async (result) => {
       // const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/keywords?api_key=09c9f42cffc2ed60c067c488dd5ed974`);
       // const keys = []
       // data.keywords.map(key => {
       //   keys.push(key.id);
       // })
       // result.keywords = keys;
-      console.log("in rec post")
       const {title, poster_path, overview} = result;
       await axios.post('/api/movies/recommended', ({movieId: result.id, title, poster_path, overview, userId}))
     });
@@ -43,6 +42,23 @@ export const getRecommendedAndAdd  = async (movieId, userId) => {
       console.error(err);
   }
 }
+export const addToWatched = (movie, userId) => {
+  return async () => {
+    try {
+      if (userId) {
+        movie.userId = userId
+      }
+      await axios.post('/api/movies/viewHistory', movie);
+      //delete seen from recommended
+      //const {data} = await axios.delete(`/api/movies/recommended/${movie.id}/${userId}`)
+      //console.log("deleted", data);
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
+}
+
 
 export const addToFavorites = (movieId, movie, userId) => {
 
@@ -53,7 +69,7 @@ export const addToFavorites = (movieId, movie, userId) => {
       if (userId) movie.userId = userId
 
       //add to watched
-      addToWatched(movie, userId)
+      await axios.post('/api/movies/viewHistory', {title: movie.title, userId, movieId});
 
       //get keywords for this movie and store in keys array
       // const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/keywords?api_key=09c9f42cffc2ed60c067c488dd5ed974`);
@@ -71,21 +87,8 @@ export const addToFavorites = (movieId, movie, userId) => {
       // })
 
       //find recs of favorite and add to recommended db
+      //addToWatched(movie, userId)
       getRecommendedAndAdd(movieId, userId)
-    }
-    catch (err) {
-      console.error(err);
-    }
-  }
-}
-export const addToWatched = (movie, userId) => {
-  return async () => {
-    try {
-      if (userId) movie.userId = userId
-      await axios.post('/api/movies/viewHistory', movie);
-      //delete seen from recommended
-      //const {data} = await axios.delete(`/api/movies/recommended/${movie.id}/${userId}`)
-      //console.log("deleted", data);
     }
     catch (err) {
       console.error(err);
@@ -97,6 +100,7 @@ export const addToWatched = (movie, userId) => {
 //-----------Genres---------------------
 const GOT_GENRES = "GOT_GENRES"
 const GOT_GENRE = "SET_GENRE"
+const GOT_IDS = "GOT_IDS"
 
 const gotGenres = (genres) => {
   return ({
@@ -104,23 +108,46 @@ const gotGenres = (genres) => {
     genres
   })
 }
-const gotGenre = (genreId) => {
+const gotIds = (ids) => {
   return ({
-    type: GOT_GENRE,
-    genreId
+    type: GOT_IDS,
+    ids
   })
 }
 
-export const fetchGenres = () => async (dispatch) => {
+export const fetchGenres = (picks) => async (dispatch) => {
   try {
-    const {data} = await axios.get('/api/genres');
-    dispatch(gotGenres(data))
+    const genres = [];
+    const  genresObj = {}
+    picks = picks.slice(0,30);
+    picks.map( async (movie)=> {
+      const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${movie.movieId}?api_key=09c9f42cffc2ed60c067c488dd5ed974&language=en-US`);
+        await data.genres.map(genre => {
+          if (!genres.includes(genre.id)) {
+            genres.push(genre.id)
+            genresObj[genre.id] = [genre.name, 1, [(movie.movieId)]]
+          }
+          else {
+            const weight = genresObj[genre.id][1];
+            const movieIds = genresObj[genre.id][2];
+            genresObj[genre.id][1] = weight+1
+            genresObj[genre.id][2] = genresObj[genre.id][2].concat([movie.movieId])
+          }
+        })
+        dispatch(gotGenres(genresObj));
+    })
+
   } catch (err) {
     console.error(err);
   }
 }
+
 export const setGenres = (genreIdArr) => (dispatch) => {
   dispatch(gotGenres(genreIdArr))
+}
+
+export const setMovieIds = (genreIdArr) => (dispatch) => {
+  dispatch(gotIds(genreIdArr))
 }
 
 //-------KEYWORDS--------------------------
@@ -170,10 +197,11 @@ export const setKeywords = (idArr, userId) => (dispatch) => {
 
 const initialState = {
                       selectedKeywords: [],
-                      genres: [],
+                      genres: {},
                       genreId: '',
                       recommended: [],
-                      keywords: []
+                      keywords: [],
+                      genreMovieIds: []
                       }
 
 //reducer
@@ -191,6 +219,8 @@ export default function(state = initialState, action) {
         return {...state, selectedKeywords: action.key}
       case SELECT_KEYWORD:
         return {...state, selectedKeywords: [...state.selectedKeywords, action.key]}
+      case GOT_IDS:
+        return {...state, genreMovieIds: action.ids}
         default:
         return state
     }

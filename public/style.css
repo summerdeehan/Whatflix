@@ -14,17 +14,32 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: rgb(165, 45, 45);
+  height: 10vh;
+}
+nav a:hover {
+  color: rgb(221, 128, 128)
+}
+
+#nav {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  height: 10vh;
 }
 
 #logo img {
   height: 5em;
+  max-width: 10vw;
 }
 
 #logo {
+  width: 10%;
   margin: 1em;
   padding: 5px;
   display: flex;
   justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 
 form div {
@@ -33,16 +48,24 @@ form div {
 }
 
 .form-entry {
-  background-color: rgb(240, 183, 202);
+  background-color: rgb(165, 45, 45);
   font-size: 20pt;
   border: none;
   height: 1em;
+  color: rgb(224, 96, 96);
+}
+.form-entry ::placeholder{
+  color: rgb(224, 96, 96);
+}
+
+.form-icon {
+  height: 1em;
+  margin-left: 10px;
 }
 /* ---------Flex Centre -------------- */
 
 .flex-center {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -51,28 +74,110 @@ form div {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* //-----------templates--------------- */
+.centre-container {
+  display: flex;
+  justify-content: center;
+}
+.centre-container-col {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.centre-title {
+  text-align: center;
+  margin-bottom: 2vh;
+  font-family: Luminari, fantasy;
+  font-size: 2em;
+  color: rgb(165, 45, 45);
+}
 
 /* // ---------flick page-------------- */
 
 
-#recommended-posters img {
-  height: 65vh;
+#recommended-posters {
+  height: 60vh;
   padding: 10px;
 }
 
 #image-carousel img {
     height: 40vh
 }
+.thumbs {
+  height: 20vh;
+  max-width: 40vw;
+}
+#add {
+  height:8vh;
+  width: 20vw;
+}
+.watch {
+  justify-content: center;
+}
 
 /* // ------ genres and keywords ---------- */
 
+
+.hvr-grow-shadow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+}
+.hvr-grow-shadow:hover, .hvr-grow-shadow:focus, .hvr-grow-shadow:active {
+  box-shadow: 0 20px 20px -10px rgba(0, 0, 0, 0.5);
+  background-color: rgb(206, 113, 113);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
 .pick-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   background-color: rgb(153, 37, 37);
   height: 10vh;
-  width: 30vw;
+  width: 20vw;
   margin: 10px;
   border-radius: 25px;
 }
 
+/* --------search movies----------- */
+.para-text {
+  text-align: center;
+  color: rgb(153, 37, 37);
+}
+.text-right {
+ text-align: center;
+ color: rgb(153, 37, 37);
+ font-family: Luminari, fantasy;
+}
+
+/* ---------movie results------------ */
+.movie-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+#vid-container {
+  border: none;
+  width: 50vw;
+  margin-left: 3vw;
+}
+#txt-container {
+  max-width: 30vw;
+  border: none;
+}
 

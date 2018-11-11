@@ -15,18 +15,16 @@ constructor() {
 componentDidMount() {
   this.props.fetchRecommended();
   //fetch watch list ids in array- take out any that are in finalArr
-  return !this.props.genres.length ? history.push('/pick') : null;
+  return !this.props.movieIds ? this.props.movieIds.length && history.push('/pick') : null;
 
 }
 handleSelect(movieId) {
   this.props.history.push(`/movie/${movieId}`)
 }
 render() {
-  //const {genres, keywords} = this.props;
-  // const containsGenre = this.props.recommended.filter(rec => {
-  //   for (let i=0; i< genres.length; i++ ) {
-  //     return rec.genre_ids.includes(genres[i])
-  //   }})
+  const {movieIds} = this.props;
+  console.log("movies in wf", movieIds)
+  const containsId = movieIds ? this.props.recommended.filter(rec => movieIds.includes(rec.movieId)): [];
   // const containsGenreAndKeys = containsGenre.filter(rec => {
   //   console.log("keys", keywords)
   //   for (let i=0; i< keywords.length; i++ ) {
@@ -35,10 +33,9 @@ render() {
   // })
   //console.log("contains g and k", containsGenreAndKeys);
 
-  const recommended = this.props.recommended ? this.props.recommended.slice(0, 50) : [];
+  const recommended = this.props.recommended
   return (
     <div>
-      <h1> Movies </h1>
         <StyleRoot>
           <Coverflow
               clickable={true}
@@ -46,24 +43,26 @@ render() {
               navigation
               infiniteScroll
               enableHeading
+              height='100%'
               media={{
-                '@media (max-width: 900px)': {
-                  width: '600px',
-                  height: '300px'
-                },
-                '@media (min-width: 900px)': {
-                  width: '960px',
-                  height: '600px'
+                '@media ': {
+                  width: '85vw',
+                  height: '85vh'
                 }
               }}
             >
             {
-              recommended.map(movie => (
+              containsId ? containsId.length && containsId.map(movie => (
                 // <Link key={movie.id} to={`/movie/${movieId}`}>
                   <div key={movie.id} onClick={() => this.handleSelect(movie.movieId)}>
                     <SingleMovie movie={movie}/>
                   </div>
                 // </Link>
+              ))
+              : recommended.map(movie => (
+                  <div key={movie.id} onClick={() => this.handleSelect(movie.movieId)}>
+                    <SingleMovie movie={movie}/>
+                  </div>
               ))
             }
           </Coverflow>
@@ -80,9 +79,9 @@ render() {
 }
 }
 const mapState = state => ({
-  genres: state.moviePicks.genres,
+  movieIds: state.moviePicks.genreMovieIds,
   keywords: state.moviePicks.selectedKeywords,
-  recommended: state.moviePicks.recommended
+  recommended: state.results.filteredPicks
 })
 const mapDispatch = dispatch => ({
   fetchRecommended : () => dispatch(fetchRecommended())

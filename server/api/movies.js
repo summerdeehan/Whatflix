@@ -20,11 +20,9 @@ router.post('/favorites/', async (req,res,next) => {
   try {
     const [fave, created] = await Favorite.findOrCreate({ where :
       {movieId: req.body.movieId,
-      //genre_ids: req.body.genre_ids,
       title: req.body.title,
       poster_path: req.body.poster_path,
       overview: req.body.overview,
-      //keywords: req.body.keywords,
       userId: req.body.userId} });
     !created ? res.status(200).json(fave) : res.status(201)
   } catch (err) {
@@ -32,7 +30,7 @@ router.post('/favorites/', async (req,res,next) => {
   }
 })
 //history
-router.get('/viewHistory', async (req,res,next) => {
+router.get('/viewHistory/', async (req,res,next) => {
   try {
     const hist = await ViewHistory.findAll();
     res.status(200).json(hist)
@@ -53,7 +51,7 @@ router.post('/viewHistory/', async (req,res,next) => {
   }
 })
 //recommended
-router.get('/recommendations', async (req,res,next) => {
+router.get('/recommendations/', async (req,res,next) => {
   try {
     const recs = await Recommended.findAll();
     res.status(200).json(recs)
@@ -61,7 +59,7 @@ router.get('/recommendations', async (req,res,next) => {
     next(err);
   }
 })
-router.post('/recommended', async (req,res,next) => {
+router.post('/recommended/', async (req,res,next) => {
   try {
     const [rec, created] = await Recommended.findOrCreate({ where :
       {movieId: req.body.movieId,
@@ -87,7 +85,7 @@ router.post('/recommended', async (req,res,next) => {
     next(err);
   }
 })
-router.get('/:movieId', async (req,res,next) => {
+router.get('/:movieId/', async (req,res,next) => {
   console.log("api movie id", req.params.movieId)
   try {
     const movie = await Recommended.findOne({
@@ -101,7 +99,7 @@ router.get('/:movieId', async (req,res,next) => {
     next(err);
   }
 })
-router.delete('recommended/:movieId/:userId', async (req,res,next) => {
+router.delete('recommended/:movieId/:userId/', async (req,res,next) => {
   try {
     const rec = await Recommended.destroy( {
       where: {
@@ -115,4 +113,11 @@ router.delete('recommended/:movieId/:userId', async (req,res,next) => {
     next(err);
   }
 })
-
+router.get('/favorites', async (req,res,next) => {
+  try {
+    const watch = await WatchList.findAll();
+    res.status(200).json(watch)
+  } catch (err) {
+    next(err);
+  }
+})

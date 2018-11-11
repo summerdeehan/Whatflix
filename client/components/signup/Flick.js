@@ -4,51 +4,88 @@ import { fetchRecommended, addToFavorites, addToWatched, addRecommended } from '
 import {Link} from 'react-router-dom'
 import {Swipeable} from 'react-touch'
 
+const styles = {
+  transition : 'all 0.2s ease-out'
+}
+
 class Flick extends React.Component {
   constructor() {
     super();
     this.state = {
-      recs: []
+      recs: [],
+      scaleLeft: 1,
+      scaleRight: 1,
+      scaleDown: 1
     }
     this.handleSwipeRight = this.handleSwipeRight.bind(this);
     this.handleSwipeLeft = this.handleSwipeLeft.bind(this);
     this.handleSwipeDown = this.handleSwipeDown.bind(this);
+    this.growOnHover= this.growOnHover.bind(this);
+    this.shrinkOnLeave = this.shrinkOnLeave.bind(this);
   }
   async componentDidMount () {
     await this.props.fetchRecommended();
     this.setState({recs: this.props.recommended.slice(0, 50)})
   }
   handleSwipeRight (rec) {
-    console.log('swiped right')
     this.setState({ recs: this.state.recs.slice(1)})
     this.props.addToFavorites(rec.movieId, rec, this.props.userId)
 
   }
   handleSwipeLeft (rec) {
-    console.log("rec", rec);
     this.setState({ recs: this.state.recs.slice(1)})
     this.props.addToWatched(rec, this.props.userId);
-    console.log('swiped left')
   }
   handleSwipeDown (rec) {
     this.setState({ recs: this.state.recs.slice(1)})
-    console.log('swiped down')
     this.props.addToWatchList(rec, this.props.userId);
   }
+  growOnHover(dir) {
+    switch(dir){
+    case "right":
+      this.setState({scaleRight: 1.3})
+      break;
+    case "left":
+      this.setState({scaleLeft: 1.3})
+      break;
+    case "down":
+      this.setState({scaleDown: 1.3})
+      break;
+    default:
+      break;
+    }
+  }
+  shrinkOnLeave (dir) {
+    switch(dir){
+      case "right":
+        this.setState({scaleRight: 1})
+        break;
+      case "left":
+        this.setState({scaleLeft: 1})
+        break;
+      case "down":
+        this.setState({scaleDown: 1})
+        break;
+      default:
+        break;
+    }
+  }
   render() {
-    console.log(this.state);
     const rec = this.state.recs[0]
     return (
       rec ?
-      <div>
+      <div className="centre-container">
         <Link to="/home"> <button type = "button"> Done </button> </Link>
-        <div id="recommended-posters" className="flex-center" key={rec.id}>
-          <Swipeable onSwipeRight={() => this.handleSwipeRight(rec)} onSwipeLeft={() => this.handleSwipeLeft(rec)} onSwipeDown={() => this.handleSwipeDown(rec)} >
-            <img src={`https://image.tmdb.org/t/p/w500/${rec.poster_path}`}/>
-          </Swipeable>
+        <div  className="flex-center" key={rec.id}>
+          <img onClick={()=> this.handleSwipeLeft(rec)} onMouseOver={() => this.growOnHover("left")} onMouseLeave={() => this.shrinkOnLeave("left")} className="thumbs" src={"/thumbs-down.png"} style={{...styles, transform: `scale(${this.state.scaleLeft})`}}/>
+            <div className="flex-col">
+              <img id="recommended-posters" src={`https://image.tmdb.org/t/p/w500/${rec.poster_path}`}/>
+              <img className="flex-center watch" onMouseOver={() => this.growOnHover("down")} onMouseLeave={() => this.shrinkOnLeave("down")} onClick={() => this.handleSwipeDown(rec)} id="add" src={"/watch.png"} style={{...styles, transform: `scale(${this.state.scaleDown})`}}/>
+            </div>
+          <img onMouseOver={() => this.growOnHover("right")} onMouseLeave={() => this.shrinkOnLeave("right")} onClick={() => this.handleSwipeRight(rec)} className="thumbs" src={"/thumbs-up.png"} style={{...styles, transform: `scale(${this.state.scaleRight})`}}/>
         </div>
     </div>
-    :  "No Suggested Movies"
+    :  <div className="container-center centre-title para-text">No Suggested Movies</div>
     )
   }
 }

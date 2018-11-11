@@ -6,29 +6,39 @@ import axios from 'axios'
 class MovieSelect extends React.Component {
   constructor() {
     super()
-    this.state = {
-      showTrailer: false
-    }
-    this.toggleTrailer.bind(this);
+    // this.state = {
+    //   showTrailer: false
+    // }
+    // this.toggleTrailer.bind(this);
   }
   componentDidMount  () {
     const movieId = this.props.match.params.movieId;
     this.props.fetchTrailer(movieId)
     this.props.fetchMovie(movieId)
   }
-  toggleTrailer () {
-    let currentTrailer = !this.state.showTrailer;
-    this.setState({showTrailer: currentTrailer})
-  }
+  // toggleTrailer () {
+  //   let currentTrailer = !this.state.showTrailer;
+  //   this.setState({showTrailer: currentTrailer})
+  // }
   render() {
     const movie = this.props.movie;
+    console.log("movie", movie)
     return (
       movie ?
-      <div>
-        <h3>{movie.title}</h3>
-        <p>{movie.overview}</p>
-        {this.state.showTrailer ? <button type="button" onClick={()=> this.toggleTrailer()} > Hide Trailer </button> : <button type="button" onClick={()=> this.toggleTrailer()} > Show Trailer </button>}
-        {this.state.showTrailer ? <iframe width="420" height="315" src={this.props.trailer} /> : null}
+      <div className='centre-container-col'>
+        <div className='centre-title'>
+          <h3>{movie.title}</h3>
+        </div>
+        <div className='movie-container'>
+          <div id="vid-container">
+            <iframe height="450" width="650" src={this.props.trailer} />
+          </div>
+          <div id="txt-container">
+            <p >{movie.release_date}</p>
+            <p >Genres: {movie.genres && movie.genres.map(val=> val =val.name).join(', ')}</p>
+            <p >{movie.overview}</p>
+          </div>
+        </div>
       </div>
       : <p>Page Not Found</p>
     )

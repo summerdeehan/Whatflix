@@ -41,19 +41,19 @@ class SearchMovies extends React.Component {
     const results = this.props.searchResults;
     const use = this.props.use
     return (
-      <div>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <input className="form-entry" onChange={this.handleChange} type="text" name="title" placeholder="Movie Title.." />
-          <button type="submit" value="Submit" disabled={!this.state.searchVal}>Search</button>
-        </form>
-        <Link to="/flick"> <button type="button"> Next </button> </Link>
+      <div className="centre-container-col">
+        <div className="centre-container">
+          <form onSubmit={(e) => this.handleSubmit(e)}>
+            <input className="form-entry" onChange={this.handleChange} type="text" name="title" placeholder="Movie Title.." />
+            <img className="form-icon"  src="/search.png" onClick={(e) => this.handleSubmit(e)}/>
+          </form>
+        </div>
         { results.length
-        ? <div>
-            <h1> Search Results: </h1>
-            {results.map(movie => <p key={movie.id} onClick={()=> this.handleSelect(use, movie,  this.props.user.id)}> {movie.title} </p>)}
+        ? <div className="centre-container-col">
+            {results.map(movie => <p className="para-text" key={movie.id} onClick={()=> this.handleSelect(use, movie,  this.props.user.id)}> {movie.title} </p>)}
 
           </div>
-        : this.state.searchVal && !results.length ? <h3>No Results Found</h3> : null }
+       : null }
       </div>
     )
   }

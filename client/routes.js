@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, Flick, UserHome, Favorites, WatchList, Whatflix, SearchMovies, Loading, SignUpData, UserChoices, PickKeywords, MovieSelect} from './components'
+import {Login, Signup, Popular,Flick, UserHome, Favorites, WatchList, Whatflix, SearchMovies, Loading, SignUpData, UserChoices, PickKeywords, MovieSelect} from './components'
 import {me} from './store'
 
 /**
@@ -34,6 +34,7 @@ class Routes extends Component {
           <Route path="/whatflix" component={Whatflix} />
           <Route path="/favorites" component={Favorites} />
           <Route path="/watch-list" component={WatchList} />
+          <Route path="/popular" component={Popular} />
           <Route path="/movie/:movieId" component={MovieSelect} />
           </Switch>
         )}

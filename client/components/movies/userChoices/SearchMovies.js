@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { searchMovie, addToFavorites, addToWatched, addToRecommended } from '../../../store'
 import {Link} from 'react-router-dom'
+import {ToastContainer, ToastStore} from 'react-toasts';
 
 class SearchMovies extends React.Component {
   constructor() {
@@ -27,6 +28,7 @@ class SearchMovies extends React.Component {
     //use- where is the search happening??
     switch (use) {
       case "favorite":
+      ToastStore.error("added to favorites!")
         this.props.addToFavorites(movieId, {genre_ids, title, poster_path, overview}, userId)
         break;
       // case "watched":
@@ -41,7 +43,9 @@ class SearchMovies extends React.Component {
     const results = this.props.searchResults;
     const use = this.props.use
     return (
+
       <div className="centre-container-col">
+        <ToastContainer lightBackground position={ToastContainer.POSITION.TOP_RIGHT} store={ToastStore}/>
         <div className="centre-container">
           <form onSubmit={(e) => this.handleSubmit(e)}>
             <input className="form-entry" onChange={this.handleChange} type="text" name="title" placeholder="Movie Title.." />
@@ -49,8 +53,20 @@ class SearchMovies extends React.Component {
           </form>
         </div>
         { results.length
-        ? <div className="centre-container-col">
-            {results.map(movie => <p className="para-text" key={movie.id} onClick={()=> this.handleSelect(use, movie,  this.props.user.id)}> {movie.title} </p>)}
+        ? <div className="movie-list-center">
+            {results.map(movie => {
+              return (
+              <div id="movie-search" className="hvr-grow" key={movie.id} onClick={()=> this.handleSelect(use, movie,  this.props.user.id)}>
+                <div className="centre">
+                  <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}/>
+                </div>
+                <div className="centre-container-col centre">
+                  <h3  > {movie.title} </h3>
+                  <p  > {movie.overview} </p>
+                </div>
+              </div>
+              )
+            })}
 
           </div>
        : null }

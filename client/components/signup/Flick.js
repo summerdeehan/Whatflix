@@ -74,15 +74,15 @@ class Flick extends React.Component {
     const rec = this.state.recs[0]
     return (
       rec ?
-      <div className="centre-container">
-        <Link to="/home"> <button type = "button"> Done </button> </Link>
+      <div className="centre-container no-wrap">
+        <div ><Link to="/home" > <button type="button" className="button-style top-right-button"> Done </button> </Link></div>
         <div  className="flex-center" key={rec.id}>
-          <img onClick={()=> this.handleSwipeLeft(rec)} onMouseOver={() => this.growOnHover("left")} onMouseLeave={() => this.shrinkOnLeave("left")} className="thumbs" src={"/thumbs-down.png"} style={{...styles, transform: `scale(${this.state.scaleLeft})`}}/>
+          <img onClick={()=> this.handleSwipeLeft(rec)} onMouseOver={() => this.growOnHover("left")} onMouseLeave={() => this.shrinkOnLeave("left")} className="thumb-right" src={"/thumbs-down.png"} style={{...styles, transform: `scale(${this.state.scaleLeft})`}}/>
             <div className="flex-col">
               <img id="recommended-posters" src={`https://image.tmdb.org/t/p/w500/${rec.poster_path}`}/>
-              <img className="flex-center watch" onMouseOver={() => this.growOnHover("down")} onMouseLeave={() => this.shrinkOnLeave("down")} onClick={() => this.handleSwipeDown(rec)} id="add" src={"/watch.png"} style={{...styles, transform: `scale(${this.state.scaleDown})`}}/>
+              <div className="flex-center watch"><img className="flex-center watch" onMouseOver={() => this.growOnHover("down")} onMouseLeave={() => this.shrinkOnLeave("down")} onClick={() => this.handleSwipeDown(rec)} id="add" src={"/down-arrow.png"} style={{...styles, transform: `scale(${this.state.scaleDown})`}}/></div>
             </div>
-          <img onMouseOver={() => this.growOnHover("right")} onMouseLeave={() => this.shrinkOnLeave("right")} onClick={() => this.handleSwipeRight(rec)} className="thumbs" src={"/thumbs-up.png"} style={{...styles, transform: `scale(${this.state.scaleRight})`}}/>
+          <img onMouseOver={() => this.growOnHover("right")} onMouseLeave={() => this.shrinkOnLeave("right")} onClick={() => this.handleSwipeRight(rec)} className="thumb-left" src={"/thumbs-up.png"} style={{...styles, transform: `scale(${this.state.scaleRight})`}}/>
         </div>
     </div>
     :  <div className="container-center centre-title para-text">No Suggested Movies</div>

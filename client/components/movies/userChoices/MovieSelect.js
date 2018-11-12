@@ -34,7 +34,6 @@ class MovieSelect extends React.Component {
             <iframe height="450" width="650" src={this.props.trailer} />
           </div>
           <div id="txt-container">
-            <p >{movie.release_date}</p>
             <p >Genres: {movie.genres && movie.genres.map(val=> val =val.name).join(', ')}</p>
             <p >{movie.overview}</p>
           </div>

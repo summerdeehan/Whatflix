@@ -8,7 +8,7 @@ render () {
     <div className='centre-container-col'>
       <div>
         <h1 className='centre-title'> Please Tell Us A Bit More... </h1>
-        <Link to="/flick"> <h1 className="text-right" type="button"> Continue  </h1> </Link>
+        <Link to="/flick"> <h1 className="text-right top-right-button" type="button"> Continue  </h1> </Link>
       </div>
       <p className='para-text'>NB. Please enter at least 10 movies to optimize our recommendations, the more the better!</p>
 

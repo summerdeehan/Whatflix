@@ -69,7 +69,7 @@ export const addToFavorites = (movieId, movie, userId) => {
       if (userId) movie.userId = userId
 
       //add to watched
-      await axios.post('/api/movies/viewHistory', {title: movie.title, userId, movieId});
+      //await axios.post('/api/movies/viewHistory', {title: movie.title, userId, movieId});
 
       //get keywords for this movie and store in keys array
       // const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/keywords?api_key=09c9f42cffc2ed60c067c488dd5ed974`);
@@ -80,7 +80,6 @@ export const addToFavorites = (movieId, movie, userId) => {
       // movie.keywords = keys;
       const {title, poster_path, overview, keywords} = movie;
       await axios.post('/api/movies/favorites', {movieId, title, poster_path, overview, userId});
-
       //post keywords in key db
       // data.keywords.map(async (keyword) => {
       //   await axios.post('/api/keywords', ({where: {movieDBId: keyword.id, name: keyword.name, userId }}))
@@ -89,6 +88,7 @@ export const addToFavorites = (movieId, movie, userId) => {
       //find recs of favorite and add to recommended db
       //addToWatched(movie, userId)
       getRecommendedAndAdd(movieId, userId)
+      //await axios.post('/api/movies/viewHistory', {title: movie.title, userId, movieId});
     }
     catch (err) {
       console.error(err);

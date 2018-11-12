@@ -10,7 +10,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <div id="nav">
         <div id="logo">
           <Link to="/home">
-            <img src="/logo.png"/>
+            <img src="/logo-final.png"/>
             {/* /<img src="/movie-title.png"/> */}
           </Link>
         </div>
@@ -20,10 +20,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <div>
           {/* The navbar will show these links after you log in */}
           <Link to="/popular">Trending</Link>
-          <Link to="/signup-data">Pick</Link>
+          <Link to="/signup-data">Search</Link>
           <Link to="/flick">Flick</Link>
-          <Link to="/favorites">Favorites</Link>
-          <Link to="/watchList">Watch-List</Link>
 
 
           <a href="#" onClick={handleClick}>

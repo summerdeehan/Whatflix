@@ -23,7 +23,6 @@ handleSelect(movieId) {
 }
 render() {
   const {movieIds} = this.props;
-  console.log("movies in wf", movieIds)
   const containsId = movieIds ? this.props.recommended.filter(rec => movieIds.includes(rec.movieId)): [];
   // const containsGenreAndKeys = containsGenre.filter(rec => {
   //   console.log("keys", keywords)
@@ -47,7 +46,7 @@ render() {
               media={{
                 '@media ': {
                   width: '85vw',
-                  height: '85vh'
+                  height: '75vh'
                 }
               }}
             >

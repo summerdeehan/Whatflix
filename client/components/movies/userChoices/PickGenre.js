@@ -8,18 +8,14 @@ class PickGenre extends React.Component {
 constructor() {
   super();
   this.state = {
-    movieIds: []
+    movieIds: [],
+    chosen: []
   }
   this.pickGenre=this.pickGenre.bind(this);
 }
-componentDidMount() {
-  // this.props.getRecommended()
-  // this.props.filterRecommended(this.props.recommended)
-  // this.props.getGenres(this.props.filtered)
 
-  //this.props.getGenres();
-}
-pickGenre(movieIdsArr) {
+pickGenre(movieIdsArr, id) {
+  this.setState({chosen: [...this.state.chosen, id]})
   const movieIds = this.state.movieIds;
   !movieIds ? this.setState({movieIds: 0})
   : movieIdsArr.map(id=> {
@@ -38,12 +34,11 @@ render () {
   console.log(genres);
   return (
     <div>
-      <div type="button" className="pick-buttons" > Any </div>
-      <Link to="/whatflix"><button type="button" onClick={() => this.props.setGenreMovieIds(this.state.movieIds)}> Submit </button></Link>
+      <Link to="/whatflix"><button className="top-right-button button-style" type="button" onClick={() => this.props.setGenreMovieIds(this.state.movieIds)}> Submit </button></Link>
       <div className="flex-row">
         {genres.map(genre => {
           return (
-            <div key={genre[0]} type="button" className="pick-buttons hvr-grow-shadow" onClick={() => this.pickGenre(genre[3])}> {genre[1]} </div>
+            <div key={genre[0]} type="button"  className={this.state.chosen.includes(genre[0]) ? "pick-buttons2 hvr-grow-shadow" : "pick-buttons hvr-grow-shadow"} onClick={() => this.pickGenre(genre[3], genre[0])}> {genre[1]} </div>
           )
         })}
       </div>

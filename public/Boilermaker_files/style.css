@@ -175,18 +175,6 @@ form div {
   margin: 10px;
   border-radius: 25px;
 }
-.pick-buttons2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color:  rgb(153, 37, 37);
-  background-color:rgb(206, 113, 113);
-  height: 10vh;
-  width: 20vw;
-  margin: 10px;
-  border-radius: 25px;
-}
 
 .button-style {
 
@@ -287,29 +275,5 @@ form div {
   display: flex;
   justify-content: flex-end;
   justify-self: flex-end;
-}
-
-#movie-search {
-  display: flex;
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-  width: 50%;
-  background-color: rgb(153, 37, 37);
-  color: rgb(206, 113, 113);
-}
-.movie-list-center{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-#movie-search img {
-  height: 10em;
-}
-.centre {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2em;
 }
 
